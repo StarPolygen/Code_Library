@@ -1,12 +1,12 @@
-//POJ 3335 模板题 
-//求多边形是否存在核 
+//POJ 1279
+//求多边形的核面积
 //半平面交模板即可 
 #include<stdio.h>
 #include<math.h>
 #include<algorithm>
 #include<iostream>
 #define ll long long
-#define maxn 110
+#define maxn 1510
 using namespace std;
 
 const double eps = 1e-8; 
@@ -117,7 +117,6 @@ int main(){
 		for(int i = 0; i < n; i++){    
 			scanf("%lf %lf", &list[i].x, &list[i].y);
 		}
-		
 		if (judge()) {//判断输入顺序，保证逆时针连边。
 	      	for (int i = 0; i < n; i++) {
 	        	addLine(l[tol++], list[(i + 1)%n], list[i]);
@@ -128,7 +127,7 @@ int main(){
 		    }
     	}
 		HalfPlaneIntersect();
-		printf("%s\n", pn < 3 ? "NO" : "YES");	
+		printf("%.2lf\n", getArea());	
 	}
 	
 	
