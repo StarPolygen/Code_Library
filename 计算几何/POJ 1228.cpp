@@ -1,14 +1,18 @@
 //POJ 1228
-//�ǳ����� �����Ա�
-//���������һ��͹�㵽��һ��͹��ı����Ƿ���3������������AC �����˷����޷�AC
-//���ջ����ڲ�ɾ�ߵ������� ��Ȼ��ʱ�����еıȽ������� 
+//虽然AC 但非常困惑
+//题目要求：判断所给点组成的凸包是否每个边上都有至少三个点 若都有 YES 反之NO 
+//不考虑最后一个凸点到第一个凸点的边上是否有3个点的情况可以AC 考虑了反而无法AC
+//但收获了在不删边点的情况下 依然逆时针排列的比较器板子 
+
+//更新：
+//使用暴力判定3点共线 即使考虑了最后一条边也能AC
 #include<stdio.h>
 #include<math.h>
 #include<algorithm>
 #include<iostream>
 #define ll long long
 using namespace std;
-const int MAXN=1010;  //������� 
+const int MAXN=1010;  //点的数量 
 const double eps=1e-8;
 const double PI=acos(-1.0);
 
@@ -19,22 +23,22 @@ struct point
 point list[MAXN];
 int stack[MAXN],top;
 
-ll cross(point p0,point p1,point p2) //������  p0p1 X p0p2 
+ll cross(point p0,point p1,point p2) //计算叉积  p0p1 X p0p2 
 {
     return (p1.x-p0.x)*(p2.y-p0.y)-(p1.y-p0.y)*(p2.x-p0.x);
 }    
-double dis(point p1,point p2)  //���� p1p2�� ���� 
+double dis(point p1,point p2)  //计算 p1p2的 距离 
 {
     return sqrt((double)(p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y));
 }  
 
 
-//cross > 0 ���� p0p2 �� p0p1Ϊ��ʱ�� 
-//		= 0 ���� ƽ�� 
-//cmp ����return trueʱ���Ὣ����1����ǰ�� 
-//���������� �� �Ƕ���ͬ�����С����ǰ�� 
+//cross > 0 代表 p0p2 对 p0p1为逆时针 
+//		= 0 代表 平行 
+//cmp 函数return true时，会将参数1排在前面 
+//极角排序函数 ， 角度相同则距离小的在前面 
 
-//ע�⣺��stack��Ҫ�����ߵ㣬��Ҫ������ʱ��ʹ��cmp2�����ȶ�͹������ 
+//注意：当stack需要包含边点，且要求逆序时，使用cmp2，如稳定凸包问题 
 bool cmp(point p1,point p2) 
 {
     ll tmp=cross(list[0],p1,p2);
@@ -43,13 +47,13 @@ bool cmp(point p1,point p2)
     else return false;
 }  
 
-//��������Ӱ�� �ĸ������ж�������
+//消除精度影响 的浮点数判断正负性
 int dblcmp(double k) {
     if (fabs(k) < eps) return 0;
     return k > 0 ? 1 : -1;
 }
-// ����������2�� ���ж��ȶ�͹��ʱʹ�� 
-// ���ղ����� ͹���ڵĵ� ����ȫ������ʱ�� 
+// 极角排序函数2号 在判断稳定凸包时使用 
+// 最终产生的 凸集内的点 是完全按照逆时针 
 bool cmp2(point p1,point p2){
     ll tmp=cross(list[0],p1,p2);
     if(tmp>0) return true;
@@ -60,7 +64,7 @@ bool cmp2(point p1,point p2){
     else return false;
 }
   
-void init(int n) //���룬����  �����·��ĵ���� list[0]  �����ҽ��м������� 
+void init(int n) //输入，并把  最左下方的点放在 list[0]  。并且进行极角排序 
 {
     int i,k;
     point p0;
@@ -101,7 +105,7 @@ void graham(int n)
         
         for(i=2;i<n;i++)
         {
-            while(top>0&&cross(list[stack[top-1]],list[stack[top]],list[i])<0) top--;// <0�ĳ�<=0��Ϊ��͹�����ϵĵ��߳�
+            while(top>0&&cross(list[stack[top-1]],list[stack[top]],list[i])<0) top--;// <0改成<=0即为将凸包边上的点踢出
             top++;
             stack[top]=i;
         }    
@@ -118,7 +122,7 @@ int main(){
 		init(n);
 		if(n < 6){
             printf("NO\n");
-            continue;     //����continue break���Ƽ����ã���Ӧ�����μ�ס��
+            continue;     //这种continue break的善加利用，是应该牢牢记住的
         }
 		graham(n);
 	
@@ -133,17 +137,17 @@ int main(){
 				else cnt=0;
 			}
 		}
-		//��һ�������͹���ĵ㣬���Կ�����ʹ���ϱߵ�Ҳ����ʱ������ 
+		//这一行是输出凸集的点，可以看到即使加上边点也是逆时针排列 
 //		for(int i=0;i<=top;i++){
 //			printf("i:%d %lld %lld\n",i,list[stack[i]].x,list[stack[i]].y);
 //		}
-		//������ע�͵�AC�ˣ���ע�ͷ���WA������Ȼ���һ���߱��뿼�� 
+		//把这行注释掉AC了，不注释反而WA，但显然最后一条边必须考虑 
 //		if(cross(list[stack[top-1]],list[stack[top]],list[stack[0]])!=0) fl=0;
 		
-		//����ȫ�����ߵ���� 
+		//特判全部共线的情况 
 		if(gongxian==n-2) fl=0;
 		
-		//����Ҳ����� ����||(top+1)!=n ����AC������Ȼ����ĵ���ԭ����͹���� Ҳ��������͹���� 
+		//这里也很奇怪 不加||(top+1)!=n 才能AC，但显然输入的点在原来的凸包上 也必须在新凸包上 
 		if(fl==0||(top+1)!=n) printf("NO\n");
 		else printf("YES\n");
 
