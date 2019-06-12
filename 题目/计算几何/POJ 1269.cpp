@@ -98,6 +98,6 @@ Point line_intersection(Point a,Point a0,Point b,Point b0) {
 	b2 = b0.x - b.x;      
 	c2 = cross(b,b0);      
 	double d = a1 * b2 - a2 * b1;      
-	return point((b1 * c2 - b2 * c1) / d,(c1 * a2 - c2 * a1) / d);  
+	return Point((b1 * c2 - b2 * c1) / d,(c1 * a2 - c2 * a1) / d);  
 }   
 
