@@ -86,3 +86,18 @@ int main()
     
     return 0;
 }
+
+
+//另一种不常见但精度高的求交点法
+Point line_intersection(Point a,Point a0,Point b,Point b0) {
+    double a1,b1,c1,a2,b2,c2;
+	a1 = a.y - a0.y;      
+	b1 = a0.x - a.x;      
+	c1 = cross(a,a0);     
+	a2 = b.y - b0.y;      
+	b2 = b0.x - b.x;      
+	c2 = cross(b,b0);      
+	double d = a1 * b2 - a2 * b1;      
+	return point((b1 * c2 - b2 * c1) / d,(c1 * a2 - c2 * a1) / d);  
+}   
+
