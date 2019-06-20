@@ -1,5 +1,5 @@
 //Comet OJ contest#5 E
-//ntt + ¸ÅÂÊ
+//ntt + æ¦‚ç‡
 #include<bits/stdc++.h>
 #define maxn 200020
 using namespace std;
@@ -8,7 +8,7 @@ const ll mod = 998244353;
 const ll _g = 3;
 
 
-//Ç°ÖÃÄ£°å
+//å‰ç½®æ¨¡æ¿
 ll mul(ll u, ll v, ll p) {
     return (u * v - ll((long double) u * v / p) * p + p) % p;
 }
@@ -23,21 +23,21 @@ ll fac[maxn+10],invf[maxn+10];
 void fact() {
     fac[0]=1;
     for(int i=1;i<=maxn;i++) {
-        fac[i]=(fac[i-1]*i) % mod;  //½×³ËÈ¡Óà´ò±í
+        fac[i]=(fac[i-1]*i) % mod;  //é˜¶ä¹˜å–ä½™æ‰“è¡¨
     }
-    //ÇĞ¼Ç,Çó½×³ËÄæÔªÊ±maxn×î´óÖµÎªmod-1£¬ÒòÎªÇóÄæÔªµÄÊı£¨´Ë´¦Îªn!£©ÒªºÍmod»¥ÖÊ²Å´æÔÚÄæÔª¡£
-    invf[maxn] = bin(fac[maxn], mod-2 , mod);  //×î´ó½×³ËÄæÔª
+    //åˆ‡è®°,æ±‚é˜¶ä¹˜é€†å…ƒæ—¶maxnæœ€å¤§å€¼ä¸ºmod-1ï¼Œå› ä¸ºæ±‚é€†å…ƒçš„æ•°ï¼ˆæ­¤å¤„ä¸ºn!ï¼‰è¦å’Œmodäº’è´¨æ‰å­˜åœ¨é€†å…ƒã€‚
+    invf[maxn] = bin(fac[maxn], mod-2 , mod);  //æœ€å¤§é˜¶ä¹˜é€†å…ƒ
     for(int i=maxn-1;i>=0;i--) {
-        invf[i]=(invf[i+1]*(i+1))%mod;  //µİÍÆ½×³ËÄæÔª
+        invf[i]=(invf[i+1]*(i+1))%mod;  //é€’æ¨é˜¶ä¹˜é€†å…ƒ
     }
 }
 
 
 
-//NTT  NTT½á¹û½«»á±£´æÔÚµÚÒ»¸öÔ­Ê¼Êı×éfÄÚ£¬²¢½«Ô­Ê¼Êı¾İ¸²¸Çµô
+//NTT  NTTç»“æœå°†ä¼šä¿å­˜åœ¨ç¬¬ä¸€ä¸ªåŸå§‹æ•°ç»„få†…ï¼Œå¹¶å°†åŸå§‹æ•°æ®è¦†ç›–æ‰
 const int maxl = maxn<<2; 
 int rev[maxl];
-void NTT(int *a,int len,int f){//´Ë´¦µÄlenÊÇÒÑ¾­¶ÔÆëµÄ£¬¶ÔÆë¹¤×÷ÔÚmulÀïÍê³É
+void NTT(int *a,int len,int f){//æ­¤å¤„çš„lenæ˜¯å·²ç»å¯¹é½çš„ï¼Œå¯¹é½å·¥ä½œåœ¨mulé‡Œå®Œæˆ
 	for(int i=0;i<len;++i)if(i<rev[i])swap(a[i],a[rev[i]]);
 	for(int i=1;i<len;i<<=1){
 		int w1=bin(_g,((mod-1)/(i<<1)*f+mod-1)%(mod-1),mod);
@@ -55,7 +55,7 @@ void NTT(int *a,int len,int f){//´Ë´¦µÄlenÊÇÒÑ¾­¶ÔÆëµÄ£¬¶ÔÆë¹¤×÷ÔÚmulÀïÍê³É
 		for(int i=0;i<len;++i)a[i]=1ll*a[i]*invlen%mod;
 	}
 }
-void mul(int *a,int *b,int n){//´Ë´¦µÄ²ÎÊınÎªÔ­Ê¼Êı×éµÄÓĞÓÃ³¤¶ÈÖ®ºÍ
+void mul(int *a,int *b,int n){//æ­¤å¤„çš„å‚æ•°nä¸ºåŸå§‹æ•°ç»„çš„æœ‰ç”¨é•¿åº¦ä¹‹å’Œ
 	int len=1,bit=0;
 	while(len<=n)len<<=1,++bit;
 	for(int i=0;i<len;++i)rev[i]=(rev[i>>1]>>1)|((i&1)<<(bit-1));
@@ -67,16 +67,16 @@ void mul(int *a,int *b,int n){//´Ë´¦µÄ²ÎÊınÎªÔ­Ê¼Êı×éµÄÓĞÓÃ³¤¶ÈÖ®ºÍ
 
 
 int n,a,b;
-//NNTÖ±½Ó¶ÔÔ­Ê¼Êı×é²Ù×÷£¬Òò´ËÔ­Ê¼Êı×é´óĞ¡Îªmaxl
+//NNTç›´æ¥å¯¹åŸå§‹æ•°ç»„æ“ä½œï¼Œå› æ­¤åŸå§‹æ•°ç»„å¤§å°ä¸ºmaxl
 int f[maxl],g[maxl],z[maxl];
 int main() {
     fact();
     scanf("%d%d%d",&n,&a,&b);
     int p = 1ll*a*get_inv(b,mod)%mod;
     int q = (1-p+mod)%mod; 
-    //¼ÆËãi¸ö·ÖÉíÊ±µÚÒ»·ÖÉí×îºóÌÔÌ­¸ÅÂÊ ´æ´¢ÓÚf[i]ÄÚ    
+    //è®¡ç®—iä¸ªåˆ†èº«æ—¶ç¬¬ä¸€åˆ†èº«æœ€åæ·˜æ±°æ¦‚ç‡ å­˜å‚¨äºf[i]å†…    
         //NTT
-        //×¢ÒâÔ­Ê¼Êı×éµÄ³õÊ¼»¯
+        //æ³¨æ„åŸå§‹æ•°ç»„çš„åˆå§‹åŒ–
         memset(f,0,sizeof(f));
         memset(g,0,sizeof(g));
         for(int i=0;i<=n;++i){
@@ -87,12 +87,12 @@ int main() {
         for(int i=1;i<=n;i++){
             f[i] = 1ll*f[i] *p % mod *fac[i-1] % mod;
         }
-        //½«NTT½á¹û£¨´ËÊ±ÔÚfÄÚ£©×÷ÎªÏÂÒ»´ÎnttµÄÔ­Ê¼Êı×éÊ¹ÓÃ£¬ĞèÒª×¢Òâ½«nÖ®ºóµÄÄÚÈİÇå¿Õ
+        //å°†NTTç»“æœï¼ˆæ­¤æ—¶åœ¨få†…ï¼‰ä½œä¸ºä¸‹ä¸€æ¬¡nttçš„åŸå§‹æ•°ç»„ä½¿ç”¨ï¼Œéœ€è¦æ³¨æ„å°†nä¹‹åçš„å†…å®¹æ¸…ç©º
         for(int i=n+1;i<maxl;i++) f[i]=0;
 
-    //¼ÆËãi¸ö·ÖÉíÊ±£¬ÆäËû·ÖÉí×îºóÌÔÌ­µÄ¸ÅÂÊ£¬¿ÉÒÔÓÉµÚÒ»·ÖÉí×îºóÌÔÌ­¸ÅÂÊÍÆµÃ
+    //è®¡ç®—iä¸ªåˆ†èº«æ—¶ï¼Œå…¶ä»–åˆ†èº«æœ€åæ·˜æ±°çš„æ¦‚ç‡ï¼Œå¯ä»¥ç”±ç¬¬ä¸€åˆ†èº«æœ€åæ·˜æ±°æ¦‚ç‡æ¨å¾—
         //NTT
-        //×¢ÒâÔ­Ê¼Êı×éµÄ³õÊ¼»¯
+        //æ³¨æ„åŸå§‹æ•°ç»„çš„åˆå§‹åŒ–
         memset(g,0,sizeof(g));
         for(int i=0;i<=n;i++){
             if(i<n) z[i]=f[n-i]*bin(p,i,mod)%mod*invf[i]%mod;
@@ -107,4 +107,3 @@ int main() {
         }
     return 0;
 }
-
