@@ -83,7 +83,7 @@ int main() {
             if(i<n)  f[i]=1ll*bin(mod-1,i,mod)*invf[i]%mod*get_inv((1-bin(q,i+1,mod)+mod)%mod,mod)%mod;
             if(i)    g[i]=invf[i-1];
         }
-        mul(f,g,maxn<<1);
+        mul(f,g,n<<1);
         for(int i=1;i<=n;i++){
             f[i] = 1ll*f[i] *p % mod *fac[i-1] % mod;
         }
@@ -98,7 +98,7 @@ int main() {
             if(i<n) z[i]=f[n-i]*bin(p,i,mod)%mod*invf[i]%mod;
             if(i)   g[i]=bin(q,i-1,mod)*invf[i-1]%mod;
         }
-        mul(z,g,maxn<<1);
+        mul(z,g,n<<1);
         for(int i=1;i<=n;i++){
             z[i] = z[i] * fac[i-1] %mod;
         }
