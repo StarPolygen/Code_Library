@@ -15,6 +15,7 @@ using namespace std;
 const int MAXN=1010;  //点的数量 
 const double eps=1e-8;
 const double PI=acos(-1.0);
+int sgn(double k) { return fabs(k) < eps ? 0 : (k > 0 ? 1 : -1); }
 
 struct point
 {
@@ -47,19 +48,14 @@ bool cmp(point p1,point p2)
     else return false;
 }  
 
-//消除精度影响 的浮点数判断正负性
-int dblcmp(double k) {
-    if (fabs(k) < eps) return 0;
-    return k > 0 ? 1 : -1;
-}
 // 极角排序函数2号 在判断稳定凸包时使用 
 // 最终产生的 凸集内的点 是完全按照逆时针 
 bool cmp2(point p1,point p2){
     ll tmp=cross(list[0],p1,p2);
     if(tmp>0) return true;
     else if(tmp==0){
-        if(dblcmp(atan2((double)p1.y,(double)p1.x)-PI/2)>=0) return dis(list[0],p1)>dis(list[0],p2);
-        else return dis(list[0],p1)<dis(list[0],p2);
+        if(sgn(atan2((double)p1.y,(double)p1.x)-PI/2)>0) return sgn(dis(list[0],p1)-dis(list[0],p2))>0;
+        else return sgn(dis(list[0],p1)-dis(list[0],p2))<0;
     }
     else return false;
 }
