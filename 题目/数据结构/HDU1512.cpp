@@ -1,5 +1,5 @@
 //左偏树
-
+//另外也可以用pb_ds 堆解决
 #include <cstdio>
 #include <bits/stdc++.h>
 //左偏树模板
