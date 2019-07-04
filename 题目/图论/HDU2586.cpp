@@ -1,4 +1,5 @@
 //DFS 暴力最短路求解
+//另外存在解法：Tarjan LCA
 #include <iostream>
 #include <cstdio>
 #include <cstring>
