@@ -1,5 +1,6 @@
 //pb_ds 红黑树
-
+//另外存在解法：树状数组 + 二分
+//             权值线段树
 #include<bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
