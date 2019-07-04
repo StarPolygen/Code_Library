@@ -1,4 +1,4 @@
-//二维背包问题
+//二维背包
 
 #include <bits/stdc++.h>
 #define ll long long
