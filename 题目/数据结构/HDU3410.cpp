@@ -1,5 +1,6 @@
 //单调栈  
 //单调栈由于单调性   扫一遍可以求小于当前元素的左右最近（最小）元素，或者次近,次次近....最远（最大）
+
 #include<bits/stdc++.h>
 #define ll long long
 #define maxn 50100
