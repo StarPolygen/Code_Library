@@ -1,3 +1,4 @@
+//ntt + 概率
 //Comet OJ contest#5 E
 //ntt + 概率
 #include<bits/stdc++.h>
