@@ -1,5 +1,6 @@
 //矩阵快速幂 好题
 //乘法化为指数加法 推得线性递推式 矩阵快速幂解决
+
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
