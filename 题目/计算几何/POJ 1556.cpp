@@ -1,3 +1,4 @@
+//最短路+线段相交
 //kuangbin专题十三 基础计算几何 
 //The Doors POJ 1556
 //Dijkstra + 判断垂直的直线线段相交
