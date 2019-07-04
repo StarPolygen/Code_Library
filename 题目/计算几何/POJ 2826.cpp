@@ -1,3 +1,4 @@
+//线段相交
 //kuangbin专题十三 基础计算几何  POJ2826 An Easy Problem?
 //判断线段相交，究极分类讨论题
 //1A C++过 G++WA 玄学POJ
