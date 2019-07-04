@@ -1,3 +1,4 @@
+//旋转卡壳 
 //POJ 2187
 //凸包 + 旋转卡壳  模板题
 #include<stdio.h>	//若bits/stdc++ list和stack命名会产生ambiguous 
