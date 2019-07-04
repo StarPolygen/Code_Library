@@ -1,3 +1,4 @@
+
 //HDU 4045 
 //组合 + 第二类斯特灵数 
 #include <iostream>
