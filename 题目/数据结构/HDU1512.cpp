@@ -1,4 +1,5 @@
 //左偏树
+
 #include <cstdio>
 #include <bits/stdc++.h>
 //左偏树模板
