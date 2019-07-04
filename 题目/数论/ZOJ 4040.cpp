@@ -1,3 +1,4 @@
+//分解质因数 
 //ZOJ 4040
 //Given an integer N, calculate the smallest positive integer that is not a sum of distinct divisors of N 
 //算法： 分解质因数 逐步加入质因数扩展寻找所求
