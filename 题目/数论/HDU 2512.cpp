@@ -1,3 +1,4 @@
+//贝尔数
 //HDU 2512
 //集合划分 ——贝尔数
 #include<bits/stdc++.h>
