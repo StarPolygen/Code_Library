@@ -1,3 +1,4 @@
+
 //洛谷P2257 YY的GCD
 //莫比乌斯反演
 #include <bits/stdc++.h>
