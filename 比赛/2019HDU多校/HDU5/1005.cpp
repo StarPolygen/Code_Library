@@ -1,86 +1,141 @@
 //分类讨论 + 暴力
-#include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <algorithm>
-#define mt(a) memset(a,0,sizeof(a))
+//小明
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+
 using namespace std;
-typedef long long ll;
-const ll mod=1e9+7;
-ll extend[1000006];
-ll Next[1000006];
-ll min(ll x,ll y)
-{
-    if(x>y) return y;
-    return x;
+
+int per[100000][10];
+int fn[100000];
+
+int path[10];
+int vis[10];
+int cnt;
+int W;
+int pref;
+
+int ans[100];
+
+void dfs(int x) {
+    if (x==W+1) {
+        cnt++;
+        for (int i=1;i<=W;i++) {
+            per[cnt][i]=path[i];
+        }
+        return ;
+    }
+    for (int i=1;i<=W;i++) {
+        if (vis[i]) {continue;}
+        vis[i]=1;
+        path[x]=i;
+        dfs(x+1);
+        vis[i]=0;
+    }
+    return ;
 }
-void getNext(string t)
-{
-    mt(Next);
-    ll len=t.length();
-    Next[0]=len;
-    ll a,p;
-    a=1;
-    while( a<len && t[a]==t[a-1]) a++; // 求出长度为1的时候 解为多少 
-    Next[1]=a-1;
-    a=1;
-    for(ll i=2;i<len;i++) // 后续的按照算法来就好
-    {
-        p=a+Next[a]-1;
-        if((i-1)+Next[i-a] < p ) Next[i]=Next[i-a];// 第一种情况 没有超过等于的部分
-        else // 超过的话就不好直接用next的定义 需要后续的遍历
-        {
-            ll j = (p - i + 1) > 0 ? (p - i + 1) : 0;
-            while(i + j < len && t[i+j] == t[j]) j++;
-            Next[i]=j;
-            a=i;
+
+bool cmp(int x,int y){
+    if (pref>=0) {
+        int u=per[x][1]-pref;
+        int v=per[y][1]-pref;
+        if (u<v) {
+            return true;
+        }
+        if (u>v) {
+            return false;
         }
     }
-}
-void exkmp(string s,string t) // s->extend  t->next
-{
-    getNext(t);
-    ll a,p;//
-    ll slen=s.length();
-    ll tlen=t.length();
-    a=p=0;
-    ll len=min(s.length(),t.length());
-    while(p<len && t[p]==s[p]) p++; // after
-    extend[0]=p;
-    for(ll i=1;i<slen;i++)
-    {
-        p=a+extend[a]-1; // update
-        if( (i-1)+Next[i-a] < p) extend[i]=Next[i-a];
-        else
-        {
-            ll j = (p - i + 1) > 0 ? (p - i + 1) : 0;
-            while( j < tlen && i+j < slen && s[i + j] == t[j]) j++;
-            extend[i]=j;
-            a=i;
+//    printf("%d %d\n", fn[x], fn[y]);
+    for (int i=2;i<=W;i++) {
+        int u=per[x][i]-per[x][i-1];
+        int v=per[y][i]-per[y][i-1];
+        if (u<v) {
+//            printf("<\n");
+            return true;
+        }
+        if (u>v) {
+//            printf(">\n");
+            return false;
         }
     }
+    return false;
 }
-// 核心 一个起始位置a  一个最远匹配位置p 然后Next 和 extend数组
-char s[1000006];
-int main()
-{// s->exkmp t->Next
-    int Case;
-    scanf("%d",&Case);
-    while(Case--)
-    {
-        scanf(" %s", s);
-        exkmp(s, s);
-        ll ans = 0;
-        int slen = strlen(s);
-        for (int i = 1; i < slen; i++)
-        {
-            // cout << i << " " << extend[i] << endl;
-            ans += extend[i];
-            if (i+extend[i]<slen)
-                ans++;
+
+inline void debug() {
+    printf("elo!\n");
+    for (int i=1;i<=cnt;i++) {
+        for (int j=1;j<=W;j++) {
+            printf("%d%s", per[i][j], j==W?"\n":" ");
         }
-        printf("%lld\n", ans);
     }
-    return 0;
+    printf("all\n");
+    for (int i=1;i<=cnt;i++) {
+        printf("%d%s", fn[i], i==cnt?"\n":" ");
+    }
 }
+int main() {
+    int T;
+    scanf("%d", &T);
+    while (T--) {
+        int n,k;
+        scanf("%d%d", &n,&k);
+        
+        if (n<=8) {
+            W=n;
+            cnt=0;
+            pref=-1;
+            for (int i=1;i<=W;i++) {
+                vis[i]=0;
+            }
+            dfs(1);
+            for (int i=1;i<=cnt;i++) {
+                fn[i]=i;
+            }
+            sort(fn+1,fn+cnt+1, cmp);
+            for (int i=1;i<=n;i++) {
+                ans[i]=per[fn[k]][i];
+            }
+            for (int i=1;i<=n;i++) {
+                printf("%d%s", ans[i], i==n?"\n":" ");
+            }
+        } else {
+            W=8;
+            cnt=0;
+            if (n==9) {
+                pref=9;
+            } else {
+                pref=0;
+            }
+            dfs(1);
+            for (int i=1;i<=cnt;i++) {
+                fn[i]=i;
+            }
+            sort(fn+1,fn+cnt+1, cmp);
+            
+            
+            ans[1]=n;
+            for (int i=2;i<=n-W;i++) {
+                ans[i]=i-1;
+            }
+            for (int i=n-W+1;i<=n;i++) {
+                ans[i]=per[fn[k]][i-n+W]+n-9;
+            }
+            for (int i=1;i<=n;i++) {
+                printf("%d%s", ans[i], i==n?"\n":" ");
+            }
+        }
+//        debug();
+    }
+}
+
+/*
+7
+3 1
+3 2
+3 3
+3 4
+3 5
+3 6
+20 10000
+*/
