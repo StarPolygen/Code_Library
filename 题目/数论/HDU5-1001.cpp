@@ -10,7 +10,7 @@ using namespace std;
 
 //辗转相除求最小x,y 满足  pa/pb ≤ x/y ≤ qa/qb
 void gao(ll pa, ll pb, ll qa, ll qb, ll &x, ll &y){//  pa/pb ≤ x/y ≤ qa/qb
-    ll z = (pa + pb -1) / pb;  //求左边界的下取整
+    ll z = (pa + pb -1) / pb;  //求左边界的上取整
     if( z <= qa / qb) {  //若小于等于右边界，代表两边界中间存在整数z满足条件，则直接返回x=z y=1
         x = z;
         y = 1;
