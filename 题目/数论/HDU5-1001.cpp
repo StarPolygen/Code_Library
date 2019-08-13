@@ -13,7 +13,7 @@ void gao(ll pa, ll pb, ll qa, ll qb, ll &x, ll &y){//  pa/pb ≤ x/y ≤ qa/qb
     ll z = (pa + pb -1) / pb;  //求左边界的上取整
     if( z <= qa / qb) {  //若小于等于右边界，代表两边界中间存在整数z满足条件，则直接返回x=z y=1
         x = z;
-        y = 1;
+        y = 1; 
         return;
     }
     pa -= (z - 1) * pb;  qa -= (z - 1) * qb; //否则两端的边界分数之间不存在整数z，则同时减去整数部分
