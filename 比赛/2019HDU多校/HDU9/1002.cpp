@@ -1,4 +1,4 @@
-//欧拉定理
+//欧拉定理 线段树扫描线
 // #pragma GCC optimize(3)
 #include<bits/stdc++.h>
 using namespace std;
