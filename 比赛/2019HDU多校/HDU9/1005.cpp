@@ -1,3 +1,4 @@
+//贪心 
 #include<cstdio>
 #include<cstring>
 
