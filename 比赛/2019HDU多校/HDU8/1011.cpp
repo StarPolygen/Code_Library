@@ -1,4 +1,3 @@
-//Author ： BigBang_019
 //贪心
 #include<bits/stdc++.h>
 using namespace std;
